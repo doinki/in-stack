@@ -1,0 +1,4 @@
+{
+  "*.?(c|m)@(j|t)s?(x)": "eslint --fix",
+  "*.@(css|json|md|yml|yaml)": "prettier --write"
+}

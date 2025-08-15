@@ -1,0 +1,50 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": ["pnpm-workspace.yaml", "tsconfig.json"],
+  "tasks": {
+    "build": {
+      "env": ["COMMIT_SHA", "MODE", "NODE_ENV", "SENTRY_*"],
+      "inputs": [
+        "app/**",
+        "mocks/**",
+        "public/**",
+        "server/**",
+        "react-router.config.ts",
+        "tailwind.config.ts",
+        "vite.config.ts"
+      ],
+      "outputs": ["build/**"]
+    },
+    "test": {
+      "dependsOn": ["typegen"],
+      "inputs": ["app/**", "mocks/**", "public/**", "server/**", "*.ts"]
+    },
+    "lint": {
+      "dependsOn": ["typegen"],
+      "inputs": [
+        ".storybook/**",
+        "app/**",
+        "mocks/**",
+        "server/**",
+        "tests/**",
+        "*.{cjs,js,mjs,ts}"
+      ]
+    },
+    "typegen": {
+      "inputs": ["app/*.{ts,tsx}", "app/routes/**", "react-router.config.ts"],
+      "outputs": [".react-router/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["typegen"],
+      "inputs": [
+        ".storybook/**",
+        "app/**",
+        "mocks/**",
+        "public/**",
+        "server/**",
+        "tests/**",
+        "*.ts"
+      ]
+    }
+  }
+}

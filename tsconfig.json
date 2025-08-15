@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "paths": {
+      "~/*": ["./app/*"],
+      "~/mocks/*": ["./mocks/*"]
+    },
+    "resolveJsonModule": true,
+    "rootDirs": [".", "./.react-router/types"],
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2022",
+    "types": ["node", "vite/client", "vitest/globals"],
+    "verbatimModuleSyntax": true
+  },
+  "exclude": ["build", "public"],
+  "include": ["**/*", ".react-router/types/**/*", ".storybook/**/*"]
+}

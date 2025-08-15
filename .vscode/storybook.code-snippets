@@ -1,0 +1,23 @@
+{
+  "Storybook snippet based on file name": {
+    "prefix": "/storybook",
+    "body": [
+      "import type { Meta, StoryObj } from '@storybook/react-vite';",
+      "",
+      "import { ${TM_FILENAME_BASE/(?:\\.stories$)|(?:^|-)([a-z])/${1:/upcase}/g} } from './${TM_FILENAME_BASE/\\.stories//}';",
+      "",
+      "const meta = {",
+      "  component: ${TM_FILENAME_BASE/(?:\\.stories$)|(?:^|-)([a-z])/${1:/upcase}/g},",
+      "  parameters: {",
+      "    layout: 'centered',",
+      "  },",
+      "} satisfies Meta<typeof ${TM_FILENAME_BASE/(?:\\.stories$)|(?:^|-)([a-z])/${1:/upcase}/g}>;",
+      "",
+      "export default meta;",
+      "type Story = StoryObj<typeof ${TM_FILENAME_BASE/(?:\\.stories$)|(?:^|-)([a-z])/${1:/upcase}/g}>;",
+      "",
+      "export const Base = {} satisfies Story;",
+      "",
+    ],
+  },
+}

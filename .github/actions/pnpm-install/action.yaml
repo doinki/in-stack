@@ -1,0 +1,16 @@
+name: PNPM Install
+description: Setup Node.js and Install dependencies using PNPM
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+      with:
+        run_install: false
+
+    - uses: actions/setup-node@v4
+      with:
+        cache: pnpm
+        node-version-file: .nvmrc
+
+    - run: pnpm install
+      shell: bash
