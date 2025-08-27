@@ -1,7 +1,7 @@
-import type { RefinedPath, SupportedLanguage } from '~/constants/locale';
-import { defaultLanguage, supportedLanguages } from '~/constants/locale';
+import { href } from 'react-router';
 
-import { removeTrailingSlash } from './remove-trailing-slash';
+import type { HrefParams, HrefPath, RefinedPath, SupportedLanguage } from '~/constants/locale';
+import { defaultLanguage, supportedLanguages } from '~/constants/locale';
 
 export function getLanguage(path: string): SupportedLanguage {
   const locale = path.split('/')[1] as SupportedLanguage;
@@ -10,18 +10,32 @@ export function getLanguage(path: string): SupportedLanguage {
 }
 
 export function refineLocalePath(path: string): RefinedPath {
-  const lang = getLanguage(path);
-  const url = new URL(path, 'http://127.0.0.1');
+  if (!path.startsWith('/')) {
+    path = `/${path}`;
+  }
 
-  return url.pathname.replace(new RegExp(`^/${lang}(?:/|$)`), '/') as RefinedPath;
+  const lang = getLanguage(path);
+
+  return path.replace(new RegExp(`^/${lang}(?:/|$)`), '/') as RefinedPath;
 }
 
-export function getLocalePath(path: RefinedPath, language: string) {
-  path = refineLocalePath(path);
-
-  if (language === defaultLanguage || !supportedLanguages.includes(language as SupportedLanguage)) {
+export function getLocalePath<T extends HrefPath = HrefPath>(
+  path: T,
+  params?: HrefParams<T>,
+): string {
+  if (!params) {
     return path;
   }
 
-  return removeTrailingSlash(`/${language}${path}`);
+  // @ts-expect-error
+  const lang = params.lang;
+  const shouldIncludeLang = lang && lang !== defaultLanguage && supportedLanguages.includes(lang);
+
+  if (!shouldIncludeLang) {
+    // @ts-expect-error
+    delete params.lang;
+  }
+
+  // @ts-expect-error
+  return href(path, params);
 }
