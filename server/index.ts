@@ -40,7 +40,7 @@ if (import.meta.env.PROD) {
     serveStatic({
       onFound: (path, c) => {
         if (path.startsWith('client/assets/')) {
-          c.header(cacheHeader({ immutable: true, maxAge: '1y', public: true }));
+          c.header('Cache-Control', cacheHeader({ immutable: true, maxAge: '1y', public: true }));
         } else if (path.startsWith('client/locales/')) {
           c.header(
             'Cache-Control',
@@ -52,7 +52,7 @@ if (import.meta.env.PROD) {
             }),
           );
         } else if (path.endsWith('.html')) {
-          c.header(cacheHeader({ maxAge: '1m' }));
+          c.header('Cache-Control', cacheHeader({ maxAge: '1m' }));
         } else {
           c.header(
             'Cache-Control',
