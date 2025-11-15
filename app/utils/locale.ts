@@ -16,7 +16,7 @@ export function refineLocalePath(path: string): RefinedPath {
 
   const lang = getLanguage(path);
 
-  return path.replace(new RegExp(`^/${lang}(?:/|$)`), '/') as RefinedPath;
+  return path.replace(new RegExp(`^/${lang}(?:/|$)`), '/');
 }
 
 export function getLocalePath<T extends HrefPath = HrefPath>(
@@ -27,15 +27,13 @@ export function getLocalePath<T extends HrefPath = HrefPath>(
     return path;
   }
 
-  // @ts-expect-error
   const lang = params.lang;
-  const shouldIncludeLang = lang && lang !== defaultLanguage && supportedLanguages.includes(lang);
+  const shouldIncludeLang =
+    lang && lang !== defaultLanguage && supportedLanguages.includes(lang as SupportedLanguage);
 
   if (!shouldIncludeLang) {
-    // @ts-expect-error
     delete params.lang;
   }
 
-  // @ts-expect-error
   return href(path, params);
 }
